@@ -19,14 +19,6 @@ steps:
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
-    script: 'docker tag selenium/node-chrome-debug:3.141.59-zinc mcopjan/selenium_chromenode_debug_custom:3.141.59-zinc-gb'
-
-- task: Docker@2
-  inputs:
-    containerRegistry: 'DockerHub_Mcopjan'
-    repository: 'selenium_chromenode_debug_custom'
-    command: 'push'
-    tags: |
-      $(Build.BuildId) 
-      3.141.59-zinc-gb
-      selenium_chromenode_debug_custom
+    script: |
+      docker tag selenium/node-chrome-debug:3.141.59-zinc mcopjan/selenium_chromenode_debug_custom:3.141.59-zinc-bg
+      docker push mcopjan/selenium_chromenode_debug_custom:3.141.59-zinc-bg
