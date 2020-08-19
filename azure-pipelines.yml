@@ -12,6 +12,7 @@ pool:
 steps:
 
 - task: PowerShell@2
+  name: "DockerHub_Login"
   inputs:
     targetType: 'inline'
     script: 'docker login docker.io -u="mcopjan" -p="0646748094aA"'
@@ -29,15 +30,17 @@ steps:
       $tag = "mcopjan/selenium_chromenode_debug_custom:3.141.59-zinc-bg"
       echo "Tagging image -> $tag"
       docker tag selenium/node-chrome-debug:3.141.59-zinc $tag
+
 - task: PowerShell@2
-  name: "Push_Image"
+  name: "Push_Docker_Image"
   inputs:
     targetType: 'inline'
     script: |
       docker push mcopjan/selenium_chromenode_debug_custom:3.141.59-zinc-bg
 
-- task: Docker@2
-  name: "LogoutFromDockerHub"
+
+- task: PowerShell@2
+  name: "DockerHub_Logout"
   inputs:
-    containerRegistry: 'DockerHub_Mcopjan'
-    command: 'logout'
+    targetType: 'inline'
+    script: 'docker logout docker.io'
