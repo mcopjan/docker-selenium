@@ -21,4 +21,10 @@ steps:
     targetType: 'inline'
     script: |
       docker tag selenium/node-chrome-debug:3.141.59-zinc mcopjan/selenium_chromenode_debug_custom:3.141.59-zinc-bg
-      docker push mcopjan/selenium_chromenode_debug_custom:3.141.59-zinc-bg
+
+- task: Docker@2
+  inputs:
+    containerRegistry: 'DockerHub_Mcopjan'
+    repository: 'mcopjan/selenium_chromenode_debug_custom'
+    command: 'push'
+    tags: '3.141.59-zinc-bg'
