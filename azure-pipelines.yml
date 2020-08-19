@@ -16,4 +16,11 @@ steps:
     targetType: 'inline'
     script: 'make chrome_debug'
 
-  
+- task: Docker@2
+  inputs:
+    containerRegistry: 'DockerHub_Mcopjan'
+    repository: 'selenium_chromenode_debug_custom'
+    command: 'push'
+    tags: |
+      $(Build.BuildId) 
+      3.141.59-zinc-gb
