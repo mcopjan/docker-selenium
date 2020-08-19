@@ -16,6 +16,11 @@ steps:
     targetType: 'inline'
     script: 'make chrome_debug'
 
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: 'docker tag selenium/node-chrome-debug:3.141.59-zinc mcopjan/selenium_chromenode_debug_custom:3.141.59-zinc-gb'
+
 - task: Docker@2
   inputs:
     containerRegistry: 'DockerHub_Mcopjan'
