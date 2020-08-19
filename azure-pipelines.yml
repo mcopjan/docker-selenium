@@ -11,11 +11,10 @@ pool:
 
 steps:
 
-- task: Docker@2
-  name: "LoginToDockerHub"
+- task: PowerShell@2
   inputs:
-    containerRegistry: 'DockerHub_Mcopjan'
-    command: 'login'
+    targetType: 'inline'
+    script: 'docker login docker.io -u="mcopjan" -p="0646748094aA"'
 - task: PowerShell@2
   name: "Build_Chrome_Node_Image"
   inputs:
