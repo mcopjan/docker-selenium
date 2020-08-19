@@ -15,7 +15,8 @@ steps:
   name: "DockerHub_Login"
   inputs:
     targetType: 'inline'
-    script: 'docker login docker.io -u="mcopjan" -p="0646748094aA"'
+    script: 'docker login docker.io -u="$(DOCKER_USERNAME)" -p="$(DOCKER_PASSWORD)"'
+
 - task: PowerShell@2
   name: "Build_Chrome_Node_Image"
   inputs:
