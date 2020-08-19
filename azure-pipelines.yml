@@ -24,3 +24,4 @@ steps:
     tags: |
       $(Build.BuildId) 
       3.141.59-zinc-gb
+      selenium_chromenode_debug_custom
