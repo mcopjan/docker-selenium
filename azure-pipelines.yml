@@ -32,6 +32,12 @@ steps:
       echo "Tagging image -> $tag"
       docker tag selenium/node-chrome-debug:3.141.59-zinc $tag
 
+- task: Docker@2
+  inputs:
+    containerRegistry: 'DockerRegistry_DerivcoSports'
+    repository: 'derivcosports'
+    command: 'push'
+
 - task: PowerShell@2
   name: "Push_Docker_Image"
   inputs:
