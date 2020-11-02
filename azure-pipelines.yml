@@ -28,7 +28,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      $tag1 = "mcopjan/selenium_chromenode_debug_custom:3.141.59-zinc-bg"
+      $tag1 = "mcopjan/selenium_chromenode_debug_custom:latest"
       $tag2 = "mcopjan/selenium_chromenode_debug_custom:$(ChromeTag)"
       echo "Tagging image with  -> $tag1 and $tag2"
       docker tag selenium/node-chrome-debug:3.141.59-zinc $tag1
@@ -39,7 +39,8 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      docker push mcopjan/selenium_chromenode_debug_custom:3.141.59-zinc-bg
+      docker push mcopjan/selenium_chromenode_debug_custom:latest
+      docker push mcopjan/selenium_chromenode_debug_custom:$(ChromeTag)
 
 
 - task: PowerShell@2
