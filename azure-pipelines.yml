@@ -30,7 +30,7 @@ steps:
     script: |
       $tag1 = "mcopjan/selenium_chromenode_debug_custom:3.141.59-zinc-bg"
       $tag2 = "mcopjan/selenium_chromenode_debug_custom:$(ChromeTag)"
-      echo "Tagging image -> $tag"
+      echo "Tagging image with  -> $tag1 and $tag2"
       docker tag selenium/node-chrome-debug:3.141.59-zinc $tag1
       docker tag selenium/node-chrome-debug:3.141.59-zinc $tag2
 
