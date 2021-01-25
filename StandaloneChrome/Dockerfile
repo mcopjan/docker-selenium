@@ -2,10 +2,10 @@
 # NOTE: DO *NOT* EDIT THIS FILE.  IT IS GENERATED.
 # PLEASE UPDATE Dockerfile.txt INSTEAD OF THIS FILE
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-FROM selenium/node-chrome:3.141.59-zinc
+FROM selenium/node-chrome:4.0.0-beta-1-prerelease-20210114
 LABEL authors=SeleniumHQ
 
-USER seluser
+USER 1200
 
 #====================================
 # Scripts to run Selenium Standalone

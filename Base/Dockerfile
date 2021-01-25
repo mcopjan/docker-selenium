@@ -1,12 +1,12 @@
-FROM ubuntu:bionic-20191029
+FROM ubuntu:focal-20201106
 LABEL authors="Selenium <selenium-developers@googlegroups.com>"
 
 #================================================
 # Customize sources for apt-get
 #================================================
-RUN  echo "deb http://archive.ubuntu.com/ubuntu bionic main universe\n" > /etc/apt/sources.list \
-  && echo "deb http://archive.ubuntu.com/ubuntu bionic-updates main universe\n" >> /etc/apt/sources.list \
-  && echo "deb http://security.ubuntu.com/ubuntu bionic-security main universe\n" >> /etc/apt/sources.list
+RUN  echo "deb http://archive.ubuntu.com/ubuntu focal main universe\n" > /etc/apt/sources.list \
+  && echo "deb http://archive.ubuntu.com/ubuntu focal-updates main universe\n" >> /etc/apt/sources.list \
+  && echo "deb http://security.ubuntu.com/ubuntu focal-security main universe\n" >> /etc/apt/sources.list
 
 # No interactive frontend during docker build
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -41,11 +41,15 @@ RUN echo "${TZ}" > /etc/timezone \
   && dpkg-reconfigure --frontend noninteractive tzdata
 
 #========================================
-# Add normal user with passwordless sudo
+# Add normal user and group with passwordless sudo
 #========================================
-RUN useradd seluser \
-         --shell /bin/bash  \
+RUN groupadd seluser \
+         --gid 1201 \
+  && useradd seluser \
          --create-home \
+         --gid 1201 \
+         --shell /bin/bash \
+         --uid 1200 \
   && usermod -a -G sudo seluser \
   && echo 'ALL ALL = (ALL) NOPASSWD: ALL' >> /etc/sudoers \
   && echo 'seluser:secret' | chpasswd
@@ -64,18 +68,20 @@ COPY supervisord.conf /etc
 #==========
 # Selenium & relaxing permissions for OpenShift and other non-sudo environments
 #==========
-RUN  mkdir -p /opt/selenium /var/run/supervisor /var/log/supervisor \
-  && touch /opt/selenium/config.json \
-  && chmod -R 777 /opt/selenium /var/run/supervisor /var/log/supervisor /etc/passwd \
-  && wget --no-verbose https://selenium-release.storage.googleapis.com/3.141/selenium-server-standalone-3.141.59.jar \
-    -O /opt/selenium/selenium-server-standalone.jar \
-  && chgrp -R 0 /opt/selenium ${HOME} /var/run/supervisor /var/log/supervisor \
-  && chmod -R g=u /opt/selenium ${HOME} /var/run/supervisor /var/log/supervisor
+RUN  mkdir -p /opt/selenium /opt/selenium/assets /var/run/supervisor /var/log/supervisor \
+  && touch /opt/selenium/config.toml \
+  && chmod -R 777 /opt/selenium /opt/selenium/assets /var/run/supervisor /var/log/supervisor /etc/passwd \
+  && wget --no-verbose https://github.com/SeleniumHQ/docker-selenium/raw/beta-jars/selenium-server-4.0.0-prerelease-beta-1-02d5e641d5.jar \
+    -O /opt/selenium/selenium-server.jar \
+#  && wget --no-verbose https://selenium-release.storage.googleapis.com/4.0-alpha-6/selenium-server-4.0.0-alpha-6.jar \
+#    -O /opt/selenium/selenium-server.jar \
+  && chgrp -R 0 /opt/selenium ${HOME} /opt/selenium/assets /var/run/supervisor /var/log/supervisor \
+  && chmod -R g=u /opt/selenium ${HOME} /opt/selenium/assets /var/run/supervisor /var/log/supervisor
 
 #===================================================
 # Run the following commands as non-privileged user
 #===================================================
-USER seluser
+USER 1200:1201
 
 
 CMD ["/opt/bin/entry_point.sh"]

@@ -2,7 +2,7 @@
 # NOTE: DO *NOT* EDIT THIS FILE.  IT IS GENERATED.
 # PLEASE UPDATE Dockerfile.txt INSTEAD OF THIS FILE
 # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-FROM selenium/node-base:3.141.59-zinc
+FROM selenium/node-base:4.0.0-beta-1-prerelease-20210114
 LABEL authors=SeleniumHQ
 
 USER root
@@ -32,7 +32,7 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
 COPY wrap_chrome_binary /opt/bin/wrap_chrome_binary
 RUN /opt/bin/wrap_chrome_binary
 
-USER seluser
+USER 1200
 
 #============================================
 # Chrome webdriver
@@ -53,8 +53,3 @@ RUN if [ -z "$CHROME_DRIVER_VERSION" ]; \
   && mv /opt/selenium/chromedriver /opt/selenium/chromedriver-$CHROME_DRIVER_VERSION \
   && chmod 755 /opt/selenium/chromedriver-$CHROME_DRIVER_VERSION \
   && sudo ln -fs /opt/selenium/chromedriver-$CHROME_DRIVER_VERSION /usr/bin/chromedriver
-
-COPY generate_config /opt/bin/generate_config
-
-# Generating a default config during build time
-RUN /opt/bin/generate_config > /opt/selenium/config.json
