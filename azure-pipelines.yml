@@ -23,7 +23,24 @@ steps:
     targetType: 'inline'
     script: 'make chrome'
 
+- task: PowerShell@2
+  name: "Tag_Image"
+  inputs:
+    targetType: 'inline'
+    script: |
+      $tag1 = "mcopjan/selenium4_chrome_en_gb:latest"
+      $tag2 = "mcopjan/selenium4_chrome_en_gb:$(ChromeTag)"
+      echo "Tagging image with  -> $tag1 and $tag2"
+      docker tag selenium/node-chrome:4.0.0-beta-1-20210126 $tag1
+      docker tag selenium/node-chrome:4.0.0-beta-1-20210126 $tag2
 
+- task: PowerShell@2
+  name: "Push_Docker_Image"
+  inputs:
+    targetType: 'inline'
+    script: |
+      docker push mcopjan/selenium4_chrome_en_gb:latest
+      docker push mcopjan/selenium4_chrome_en_gb:$(ChromeTag)
 
 
 - task: PowerShell@2
