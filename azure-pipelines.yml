@@ -21,7 +21,7 @@ steps:
   name: "Build_Chrome_Node_Image"
   inputs:
     targetType: 'inline'
-    script: 'make chrome_debug'
+    script: 'make chrome'
 
 
 
